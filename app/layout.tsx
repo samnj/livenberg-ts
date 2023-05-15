@@ -1,6 +1,7 @@
 import { EB_Garamond, Fira_Mono, Lato, Montserrat } from "next/font/google"
 import "@/styles/globals.css"
 import Navbar from "@/components/Navbar"
+import Footer from "@/components/Footer"
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -41,10 +42,11 @@ export default function RootLayout({
     >
       <body className="dark min-h-screen">
         <div className="relative flex min-h-screen flex-col">
-          <header className="sticky top-0 border-b border-solid border-b-border shadow-sm">
+          <header className="sticky top-0 mb-14 border-b border-solid border-b-border shadow-sm">
             <Navbar />
           </header>
           <main className="flex flex-1 flex-col font-lato">{children}</main>
+          <Footer />
         </div>
       </body>
     </html>
