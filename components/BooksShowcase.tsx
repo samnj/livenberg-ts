@@ -1,4 +1,4 @@
-import { URL, SHOWCASE_BOOKS_IDS } from "@/lib/constants"
+import { GUTENDEX_URL, SHOWCASE_BOOKS_IDS } from "@/lib/constants"
 import Book from "@/components/Book"
 import formatBook from "@/lib/formatter"
 import { TBook } from "@/lib/types"
@@ -12,9 +12,10 @@ async function fetchHomeBooks(URL: string): Promise<{ results: TBook[] }> {
 
   return res.json()
 }
+
 async function BooksShowcase() {
   try {
-    const books = await fetchHomeBooks(URL)
+    const books = await fetchHomeBooks(GUTENDEX_URL)
     const fbooks = books.results.map((book) => formatBook(book))
 
     return (
