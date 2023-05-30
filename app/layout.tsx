@@ -2,6 +2,8 @@ import { EB_Garamond, Fira_Mono, Lato, Montserrat } from "next/font/google"
 import "@/styles/globals.css"
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
+import { Toaster } from "react-hot-toast"
+import TailwindToaster from "@/components/TailwindToaster"
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -47,6 +49,7 @@ export default function RootLayout({
           </header>
           <main className="flex flex-1 flex-col font-lato">{children}</main>
           <Footer />
+          <TailwindToaster />
         </div>
       </body>
     </html>
