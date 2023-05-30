@@ -45,14 +45,14 @@ function Book({ id, title, authors, cover, languages }: BookProps) {
             target="_blank"
             className="hover:text-popover-foreground"
           >
-            <BookmarkPlus size={20} />
+            <BookmarkPlus className="h-5 w-5" />
           </Link>
           <Link
             className="hover:text-popover-foreground"
             href={`${BOOK_URL}${id}`}
             target="_blank"
           >
-            <ArrowDownToLine size={20} />
+            <ArrowDownToLine className="h-5 w-5" />
           </Link>
         </div>
       </CardFooter>

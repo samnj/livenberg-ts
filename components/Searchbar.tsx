@@ -1,61 +1,17 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import useSearch from "@/hooks/useSearch"
-import validateMinLength from "@/lib/validateMinLength"
-import { Search, XIcon } from "lucide-react"
-import { useState } from "react"
-import { useForm } from "react-hook-form"
-
-type FormValues = {
-  searchInput: string
-}
+import useSearchForm from "@/hooks/useSearchForm"
+import { validateMinLength } from "@/lib/helpers"
+import { RotateCw, Search } from "lucide-react"
 
 function Searchbar() {
-  const [searchData, setSearchData] = useState({
-    query: "",
-    shouldFetch: false,
-  })
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-    getValues,
-  } = useForm<FormValues>({
-    defaultValues: {
-      searchInput: "",
-    },
-    mode: "onSubmit",
-    reValidateMode: "onSubmit",
-  })
-
-  useSearch({
-    query: searchData.query,
-    shouldFetch: searchData.shouldFetch,
-  })
-
-  function onSubmit() {
-    setSearchData({
-      query: getValues("searchInput"),
-      shouldFetch: true,
-    })
-    reset()
-  }
-
-  function onError() {
-    setSearchData({
-      query: "",
-      shouldFetch: false,
-    })
-  }
-
+  const { register, handleFormSubmit, errors, isLoading } = useSearchForm()
   return (
     <div className="w-full max-w-lg space-y-2">
       <form
         className="relative flex items-center space-x-2"
-        onSubmit={handleSubmit(onSubmit, onError)}
+        onSubmit={handleFormSubmit()}
         noValidate
       >
         <input
@@ -71,12 +27,12 @@ function Searchbar() {
             validate: { minLength: validateMinLength },
           })}
         />
-        <XIcon
-          className="absolute inset-y-auto right-[4.5rem] h-4 w-4 cursor-pointer text-muted-foreground transition-all hover:scale-110 active:text-muted-foreground/80"
-          onClick={() => reset()}
-        />
         <Button variant="secondary" type="submit">
-          <Search size={20} />
+          {isLoading ? (
+            <RotateCw className="h-[18px] w-[18px] animate-spin" />
+          ) : (
+            <Search className="h-[18px] w-[18px]" />
+          )}
         </Button>
       </form>
       <p className="font-bold text-destructive">

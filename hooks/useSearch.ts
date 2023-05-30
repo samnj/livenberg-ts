@@ -1,6 +1,6 @@
-import useSWR from "swr"
-import { TBookSearch } from "@/lib/types"
 import { GUTENDEX_URL } from "@/lib/constants"
+import { TBookSearch } from "@/lib/types"
+import useSWR from "swr"
 
 async function fetcher(url: string) {
   const res = await fetch(url)
