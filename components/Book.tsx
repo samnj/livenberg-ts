@@ -9,20 +9,15 @@ import {
 
 import no_cover from "@/public/no_cover.webp"
 import Image from "next/image"
-import { BOOK_URL } from "@/lib/constants"
 
 import { ArrowDownToLine, BookmarkPlus } from "lucide-react"
 import Link from "next/link"
+import formatBook from "@/lib/formatter"
+import { TBook } from "@/lib/types"
 
-type BookProps = {
-  id: number
-  title: string
-  authors: string
-  cover: string
-  languages: string
-}
+function Book({ book }: { book: TBook }) {
+  const { title, authors, cover, languages, downloadLink } = formatBook(book)
 
-function Book({ id, title, authors, cover, languages }: BookProps) {
   return (
     <Card className="flex h-[22rem] w-44 flex-col justify-between">
       <CardHeader className="h-16">
@@ -49,7 +44,7 @@ function Book({ id, title, authors, cover, languages }: BookProps) {
           </Link>
           <Link
             className="hover:text-popover-foreground"
-            href={`${BOOK_URL}${id}`}
+            href={downloadLink}
             target="_blank"
           >
             <ArrowDownToLine className="h-5 w-5" />
