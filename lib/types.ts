@@ -10,7 +10,7 @@ export type TBook = {
   }
 }
 
-export type TBookSearch = {
+export type TBooksResult = {
   count: number
   originalQuery: string
   next: string | null
