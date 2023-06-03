@@ -4,11 +4,13 @@ import { Button } from "@/components/ui/button"
 import useSearchForm from "@/hooks/useSearchForm"
 import { validateMinLength } from "@/lib/helpers"
 import { RotateCw, Search } from "lucide-react"
+import { twMerge } from "tailwind-merge"
 
-function Searchbar() {
+function Searchbar({ className = "" }) {
   const { register, handleFormSubmit, errors, isLoading } = useSearchForm()
+
   return (
-    <div className="w-full max-w-lg space-y-2">
+    <div className={twMerge("w-full max-w-lg space-y-2", className)}>
       <form
         className="relative flex items-center space-x-2"
         onSubmit={handleFormSubmit()}

@@ -16,6 +16,6 @@ function Books({ searchParams: { search } }: BooksSearchProp) {
 
   if (!data) return <></>
 
-  return <BookList books={data?.results} />
+  return <BookList books={data.results} />
 }
 export default Books

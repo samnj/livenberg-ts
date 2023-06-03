@@ -2,7 +2,6 @@
 
 import Book from "@/components/Book"
 import { TBook } from "@/lib/types"
-import formatBook from "@/lib/formatter"
 
 function BookList({ books }: { books: TBook[] }) {
   return (
