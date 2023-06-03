@@ -1,4 +1,4 @@
-import useSearch from "@/hooks/useSearch"
+import useBooks from "@/hooks/useBooks"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 
@@ -26,7 +26,7 @@ export default function useSearchForm() {
     reValidateMode: "onSubmit",
   })
 
-  const { isLoading } = useSearch({
+  const { isLoading } = useBooks({
     query: searchData.query,
     shouldFetch: searchData.shouldFetch,
   })
