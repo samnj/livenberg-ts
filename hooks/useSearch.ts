@@ -3,6 +3,7 @@ import { TBookSearch } from "@/lib/types"
 import useSWR from "swr"
 import { useRouter } from "next/navigation"
 import { toast } from "react-hot-toast"
+import { normalizeQuery } from "@/lib/helpers"
 
 async function fetcher(url: string) {
   const res = await fetch(url)
@@ -19,8 +20,9 @@ function useSearch({
   shouldFetch: boolean
 }) {
   const router = useRouter()
+  const normalizedQuery = normalizeQuery(query)
 
-  const SEARCH_URL = `${GUTENDEX_URL}?search=${query}`
+  const SEARCH_URL = `${GUTENDEX_URL}?search=${normalizedQuery}`
 
   const { data, error, isLoading } = useSWR<TBookSearch>(
     shouldFetch ? SEARCH_URL : null,
@@ -39,9 +41,9 @@ function useSearch({
   )
   return {
     books: data,
+    originalQuery: query,
     isLoading,
     isError: error,
   }
 }
-
 export default useSearch
