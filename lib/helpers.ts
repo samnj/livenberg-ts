@@ -19,17 +19,17 @@ export function normalizeQuery(query: string) {
   return normalizedQuery
 }
 
-export async function fetcher(key: string) {
+export async function fetcher(key: string, originalQuery: string) {
   const url = `${SEARCH_URL}${key}`
   const res = await fetch(url)
   if (!res.ok) throw new Error("Couldn't fetch books")
 
-  return res.json()
+  const response = await res.json()
+  response.query = originalQuery
+  return response
 }
 
 export async function fetchHomeBooks(): Promise<{ results: TBook[] }> {
-  console.log(IDS_URL)
-  console.log(SHOWCASE_BOOKS_IDS)
   const res = await fetch(`${IDS_URL}${SHOWCASE_BOOKS_IDS}`)
 
   if (!res.ok) {
