@@ -1,16 +1,9 @@
-import { GUTENDEX_URL } from "@/lib/constants"
 import { TBookSearch } from "@/lib/types"
 import useSWR from "swr"
 import { useRouter } from "next/navigation"
 import { toast } from "react-hot-toast"
 import { normalizeQuery } from "@/lib/helpers"
-
-async function fetcher(url: string) {
-  const res = await fetch(url)
-  if (!res.ok) throw new Error("Couldn't fetch books")
-
-  return res.json()
-}
+import { fetcher } from "@/lib/helpers"
 
 function useSearch({
   query,
@@ -22,10 +15,8 @@ function useSearch({
   const router = useRouter()
   const normalizedQuery = normalizeQuery(query)
 
-  const SEARCH_URL = `${GUTENDEX_URL}?search=${normalizedQuery}`
-
   const { data, error, isLoading } = useSWR<TBookSearch>(
-    shouldFetch ? SEARCH_URL : null,
+    shouldFetch ? normalizedQuery : null,
     fetcher,
     {
       shouldRetryOnError: false,
@@ -34,7 +25,7 @@ function useSearch({
           toast("No results found")
           return
         }
-        router.push(`/results/${query}`)
+        router.push(`/results/${normalizedQuery}`)
       },
       onError: () => toast.error("Something went wrong"),
     }

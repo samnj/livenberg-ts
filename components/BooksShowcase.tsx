@@ -1,21 +1,10 @@
-import { GUTENDEX_URL, SHOWCASE_BOOKS_IDS } from "@/lib/constants"
 import Book from "@/components/Book"
 import formatBook from "@/lib/formatter"
-import { TBook } from "@/lib/types"
-
-async function fetchHomeBooks(URL: string): Promise<{ results: TBook[] }> {
-  const res = await fetch(`${URL}?ids=${SHOWCASE_BOOKS_IDS}`)
-
-  if (!res.ok) {
-    throw new Error("Couldn't fetch home page books")
-  }
-
-  return res.json()
-}
+import { fetchHomeBooks } from "@/lib/helpers"
 
 async function BooksShowcase() {
   try {
-    const books = await fetchHomeBooks(GUTENDEX_URL)
+    const books = await fetchHomeBooks()
     const fbooks = books.results.map((book) => formatBook(book))
 
     return (
