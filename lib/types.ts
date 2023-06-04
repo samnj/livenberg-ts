@@ -12,7 +12,7 @@ export type TBook = {
 
 export type TBooksResult = {
   count: number
-  originalQuery: string
+  query: string
   next: string | null
   previous: string | null
   results: TBook[]
