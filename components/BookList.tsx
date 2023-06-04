@@ -5,7 +5,7 @@ import { TBook } from "@/lib/types"
 
 function BookList({ books }: { books: TBook[] }) {
   return (
-    <div>
+    <div className="mt-6 grid grid-cols-4 gap-6">
       {books.map((book) => (
         <Book key={book.id} book={book} />
       ))}
