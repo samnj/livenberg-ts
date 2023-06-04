@@ -1,6 +1,5 @@
-import { SEARCH_URL } from "@/lib/constants"
-import { IDS_URL, SHOWCASE_BOOKS_IDS } from "@/lib/constants"
-import { TBook } from "@/lib/types"
+import { GUTENDEX_URL, IDS_URL, SHOWCASE_BOOKS_IDS } from "@/lib/constants"
+import { TBook, TBooksResult } from "@/lib/types"
 
 export function validateMinLength(value: string) {
   return (
@@ -19,16 +18,6 @@ export function normalizeQuery(query: string) {
   return normalizedQuery
 }
 
-export async function fetcher(key: string, originalQuery: string) {
-  const url = `${SEARCH_URL}${key}`
-  const res = await fetch(url)
-  if (!res.ok) throw new Error("Couldn't fetch books")
-
-  const response = await res.json()
-  response.query = originalQuery
-  return response
-}
-
 export async function fetchHomeBooks(): Promise<{ results: TBook[] }> {
   const res = await fetch(`${IDS_URL}${SHOWCASE_BOOKS_IDS}`)
 
@@ -37,4 +26,26 @@ export async function fetchHomeBooks(): Promise<{ results: TBook[] }> {
   }
 
   return res.json()
+}
+
+export function createBookFetcher(query: string) {
+  return async (key: string) => {
+    const res = await fetch(key)
+    if (!res.ok) throw new Error("Couldn't fetch books")
+
+    const response = await res.json()
+    response.query = query
+    return response
+  }
+}
+
+export function createBookSearchKey(query: string, shouldFetch: boolean) {
+  return (pageIndex: number, previousPageData: TBooksResult) => {
+    if (!shouldFetch) return null
+    if (previousPageData && !previousPageData.next) return null
+
+    return pageIndex === 0
+      ? `${GUTENDEX_URL}?search=${query}`
+      : previousPageData.next
+  }
 }

@@ -1,39 +1,50 @@
+import {
+  createBookFetcher,
+  createBookSearchKey,
+  normalizeQuery,
+} from "@/lib/helpers"
 import { TBooksResult } from "@/lib/types"
-import useSWR from "swr"
 import { useRouter } from "next/navigation"
 import { toast } from "react-hot-toast"
-import { normalizeQuery } from "@/lib/helpers"
-import { fetcher } from "@/lib/helpers"
+import useSWRInfinite from "swr/infinite"
 
-function useBooks({
-  query,
-  shouldFetch,
-}: {
+type useBooksProps = {
   query: string
-  shouldFetch: boolean
-}) {
+  shouldFetch?: boolean
+}
+
+function useBooks({ query, shouldFetch = true }: useBooksProps) {
   const router = useRouter()
   const normalizedQuery = normalizeQuery(query)
 
-  const { data, error, isLoading } = useSWR<TBooksResult>(
-    shouldFetch ? normalizedQuery : null,
-    (key) => fetcher(key, query),
-    {
-      shouldRetryOnError: false,
-      onSuccess: (data) => {
-        if (!data.count) {
-          toast("No results found")
-          return
-        }
-        router.push(`/books?search=${normalizedQuery}`)
-      },
-      onError: () => toast.error("Something went wrong"),
-    }
-  )
+  const getKey = createBookSearchKey(normalizedQuery, shouldFetch)
+  const fetcher = createBookFetcher(query)
+  const options = {
+    shouldRetryOnError: false,
+    onSuccess: (data: TBooksResult[]) => {
+      if (!data) {
+        toast("No results found")
+        return
+      }
+      if (data.length > 1) return
+      router.push(`/books?search=${normalizedQuery}`)
+    },
+    onError: () => toast.error("Something went wrong"),
+  }
+
+  const { data, error, isLoading, size, setSize, isValidating } =
+    useSWRInfinite<TBooksResult>(getKey, fetcher, options)
+
+  const hasNextPage = data && Boolean(data[data.length - 1].next)
+
   return {
     books: data,
     isLoading,
+    isValidating,
     isError: error,
+    size,
+    setSize,
+    hasNextPage,
   }
 }
 export default useBooks
