@@ -2,8 +2,9 @@ import { EB_Garamond, Fira_Mono, Lato, Montserrat } from "next/font/google"
 import "@/styles/globals.css"
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
-import { Toaster } from "react-hot-toast"
 import TailwindToaster from "@/components/TailwindToaster"
+import { ClerkProvider } from "@clerk/nextjs"
+import { dark } from "@clerk/themes"
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -38,20 +39,22 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html
-      lang="en"
-      className={`${lato.variable} ${montserrat.variable} ${firaMono.variable}  ${garamond.variable}`}
-    >
-      <body className="dark min-h-screen">
-        <div className="relative flex min-h-screen flex-col">
-          <header className="sticky top-0 mb-14 border-b border-solid border-b-border shadow-sm">
-            <Navbar />
-          </header>
-          <main className="flex flex-1 flex-col font-lato">{children}</main>
-          <Footer />
-          <TailwindToaster />
-        </div>
-      </body>
-    </html>
+    <ClerkProvider appearance={{ baseTheme: dark }}>
+      <html
+        lang="en"
+        className={`${lato.variable} ${montserrat.variable} ${firaMono.variable}  ${garamond.variable}`}
+      >
+        <body className="dark min-h-screen">
+          <div className="relative flex min-h-screen flex-col">
+            <header className="sticky top-0 z-50 mb-14 border-b border-solid border-b-border shadow-sm backdrop-blur-lg">
+              <Navbar />
+            </header>
+            <main className="flex flex-1 flex-col font-lato">{children}</main>
+            <Footer />
+            <TailwindToaster />
+          </div>
+        </body>
+      </html>
+    </ClerkProvider>
   )
 }
