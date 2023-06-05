@@ -36,6 +36,7 @@ function Book({ book }: { book: TBook }) {
         <div>{languages}</div>
         <div className="flex items-center gap-4">
           <Link
+            title={`add ${title} to your library`}
             href=""
             target="_blank"
             className="hover:text-popover-foreground"
@@ -43,6 +44,7 @@ function Book({ book }: { book: TBook }) {
             <BookmarkPlus className="h-5 w-5" />
           </Link>
           <Link
+            title={`download ${title}`}
             className="hover:text-popover-foreground"
             href={downloadLink}
             target="_blank"
