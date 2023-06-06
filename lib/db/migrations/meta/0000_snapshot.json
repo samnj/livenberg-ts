@@ -1,11 +1,11 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "21d14a5d-b5fa-4184-8704-1ba85573488a",
+  "id": "70cedcbb-e3f8-4c35-8a9b-5279ed87a20d",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
-    "test": {
-      "name": "test",
+    "book": {
+      "name": "book",
       "columns": {
         "id": {
           "name": "id",
@@ -14,18 +14,41 @@
           "notNull": true,
           "autoincrement": true
         },
-        "name": {
-          "name": "name",
-          "type": "text",
+        "bookId": {
+          "name": "bookId",
+          "type": "int",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
-        "comment": {
-          "name": "comment",
-          "type": "text",
+        "addedAt": {
+          "name": "addedAt",
+          "type": "timestamp",
           "primaryKey": false,
           "notNull": false,
+          "autoincrement": false,
+          "default": "(now())"
+        },
+        "ownerId": {
+          "name": "ownerId",
+          "type": "varchar(256)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {}
+    },
+    "user": {
+      "name": "user",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "varchar(256)",
+          "primaryKey": true,
+          "notNull": true,
           "autoincrement": false
         }
       },
