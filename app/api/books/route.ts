@@ -1,6 +1,6 @@
 import { BOOK_ACTIONS } from "@/lib/constants"
 import { db } from "@/lib/db/index"
-import { book } from "@/lib/db/schema"
+import { book, user } from "@/lib/db/schema"
 import { auth } from "@clerk/nextjs"
 import { and, eq } from "drizzle-orm"
 import { NextResponse } from "next/server"
@@ -8,9 +8,8 @@ import { NextResponse } from "next/server"
 export async function POST(request: Request) {
   const { userId } = auth()
   if (!userId) {
-    return new Response("Unauthorized", { status: 401 })
+    return NextResponse.json("Unauthorized", { status: 401 })
   }
-
   const { bookId, action } = await request.json()
 
   if (action === BOOK_ACTIONS.ADD) {
@@ -39,5 +38,27 @@ export async function POST(request: Request) {
         status: 500,
       })
     }
+  }
+}
+
+export async function GET() {
+  const { userId } = auth()
+  if (!userId) {
+    return NextResponse.json("Unauthorized", { status: 401 })
+  }
+
+  // NOTE: should add books array to user schema to make this faster
+  try {
+    const userBooks = await db
+      .select()
+      .from(book)
+      .where(eq(book.ownerId, userId))
+
+    return NextResponse.json({
+      status: 200,
+      userBooks,
+    })
+  } catch (error) {
+    return NextResponse.json("Failed to get user Books")
   }
 }
