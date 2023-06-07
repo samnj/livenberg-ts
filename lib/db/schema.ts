@@ -13,8 +13,8 @@ export const user = mysqlTable("user", {
 
 export const book = mysqlTable("book", {
   id: serial("id").primaryKey(),
-  bookId: int("bookId"),
-  addedAt: timestamp("addedAt").defaultNow(),
+  bookId: int("bookId").notNull(),
+  addedAt: timestamp("addedAt").defaultNow().notNull(),
   ownerId: varchar("ownerId", { length: 256 }).notNull(),
 })
 
