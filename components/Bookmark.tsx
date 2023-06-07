@@ -12,7 +12,7 @@ type BookmarkProps = {
 
 function Bookmark({ id, title, userBooks }: BookmarkProps) {
   const isLoggedIn = userBooks !== undefined
-  const isBookSaved = isLoggedIn && userBooks.includes(id)
+  const isBookSaved = isLoggedIn && userBooks?.includes(id)
 
   const titleText = {
     add: `add ${title} to your library`,
@@ -24,11 +24,22 @@ function Bookmark({ id, title, userBooks }: BookmarkProps) {
     if (!isLoggedIn) {
       toast("Log in to save books")
     } else {
-      handleBook({
-        bookId: id,
-        action: isBookSaved ? BOOK_ACTIONS.DELETE : BOOK_ACTIONS.ADD,
-      })
-      mutate("userBooks")
+      const action = isBookSaved ? BOOK_ACTIONS.DELETE : BOOK_ACTIONS.ADD
+      const newUserBooks =
+        action === BOOK_ACTIONS.DELETE
+          ? userBooks.filter((book) => book !== id)
+          : [...userBooks, id]
+
+      mutate(
+        "userBooks",
+        handleBook({
+          bookId: id,
+          action: action,
+        }),
+        {
+          optimisticData: newUserBooks,
+        }
+      )
     }
   }
 

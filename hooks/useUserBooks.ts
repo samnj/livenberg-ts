@@ -7,7 +7,10 @@ function useUserBooks() {
 
   const { data, error, isLoading } = useSWR(
     userId ? "userBooks" : null,
-    getUserBooks
+    getUserBooks,
+    {
+      keepPreviousData: true,
+    }
   )
 
   return { userBooks: data, isLoading, isError: error }
