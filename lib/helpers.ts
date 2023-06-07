@@ -1,10 +1,5 @@
-import {
-  GUTENDEX_URL,
-  IDS_URL,
-  SHOWCASE_BOOKS_IDS,
-  BOOK_ACTIONS,
-} from "@/lib/constants"
-import { TBook, TBooksResult } from "@/lib/types"
+import { GUTENDEX_URL, IDS_URL, BOOK_ACTIONS } from "@/lib/constants"
+import { TBooksResult } from "@/lib/types"
 import { SavedBook } from "@/lib/db/schema"
 
 export function validateMinLength(value: string) {
@@ -24,11 +19,11 @@ export function normalizeQuery(query: string) {
   return normalizedQuery
 }
 
-export async function fetchHomeBooks() {
-  const res = await fetch(`${IDS_URL}${SHOWCASE_BOOKS_IDS}`)
+export async function fetchBooksById(ids: number[]) {
+  const res = await fetch(`${IDS_URL}${ids.join(",")}`)
 
   if (!res.ok) {
-    throw new Error("Couldn't fetch home page books")
+    throw new Error("Couldn't fetch books")
   }
 
   const response = await res.json()

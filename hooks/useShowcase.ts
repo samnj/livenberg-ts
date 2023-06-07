@@ -1,11 +1,12 @@
-import { fetchHomeBooks } from "@/lib/helpers"
+import { fetchBooksById } from "@/lib/helpers"
 import useSWR from "swr"
 import { TBooksResult } from "@/lib/types"
+import { SHOWCASE_BOOKS_IDS } from "@/lib/constants"
 
 function useShowCase() {
   const { data, error, isLoading } = useSWR<Omit<TBooksResult, "query">>(
     "homeBooks",
-    fetchHomeBooks,
+    (_) => fetchBooksById(SHOWCASE_BOOKS_IDS),
     {
       revalidateIfStale: false,
       revalidateOnFocus: false,
