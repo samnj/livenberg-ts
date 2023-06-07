@@ -11,6 +11,7 @@ function useShowCase() {
       revalidateIfStale: false,
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
+      keepPreviousData: true,
     }
   )
 
