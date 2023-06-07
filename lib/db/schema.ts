@@ -5,7 +5,7 @@ import {
   int,
   timestamp,
 } from "drizzle-orm/mysql-core"
-import { relations } from "drizzle-orm"
+import { InferModel, relations } from "drizzle-orm"
 
 export const user = mysqlTable("user", {
   id: varchar("id", { length: 256 }).primaryKey(),
@@ -25,3 +25,5 @@ export const usersRelations = relations(user, ({ many }) => ({
 export const booksRelations = relations(book, ({ one }) => ({
   owner: one(user, { fields: [book.ownerId], references: [user.id] }),
 }))
+
+export type SavedBook = InferModel<typeof book>

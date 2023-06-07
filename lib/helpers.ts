@@ -1,5 +1,11 @@
-import { GUTENDEX_URL, IDS_URL, SHOWCASE_BOOKS_IDS } from "@/lib/constants"
+import {
+  GUTENDEX_URL,
+  IDS_URL,
+  SHOWCASE_BOOKS_IDS,
+  BOOK_ACTIONS,
+} from "@/lib/constants"
 import { TBook, TBooksResult } from "@/lib/types"
+import { SavedBook } from "@/lib/db/schema"
 
 export function validateMinLength(value: string) {
   return (
@@ -18,14 +24,15 @@ export function normalizeQuery(query: string) {
   return normalizedQuery
 }
 
-export async function fetchHomeBooks(): Promise<{ results: TBook[] }> {
+export async function fetchHomeBooks() {
   const res = await fetch(`${IDS_URL}${SHOWCASE_BOOKS_IDS}`)
 
   if (!res.ok) {
     throw new Error("Couldn't fetch home page books")
   }
 
-  return res.json()
+  const response = await res.json()
+  return response
 }
 
 export function createBookFetcher(query: string) {
@@ -48,4 +55,31 @@ export function createBookSearchKey(query: string, shouldFetch: boolean) {
       ? `${GUTENDEX_URL}?search=${query}`
       : previousPageData.next
   }
+}
+
+// TODO: handle fetch errors
+
+export async function handleBook({
+  bookId,
+  action,
+}: {
+  bookId: number
+  action: keyof typeof BOOK_ACTIONS
+}) {
+  await fetch("/api/books", {
+    method: "POST",
+    body: JSON.stringify({ bookId, action }),
+  })
+}
+
+export async function getUserBooks() {
+  const res = await fetch("/api/books", {
+    method: "GET",
+  })
+
+  if (!res.ok) throw new Error("Couldn't fetch user books")
+
+  const response = await res.json()
+  const userBooks: SavedBook[] = response.userBooks
+  return userBooks.map((book) => book.bookId)
 }
