@@ -3,7 +3,7 @@ import { Github } from "lucide-react"
 
 function Footer() {
   return (
-    <footer className="flex h-16 items-center justify-center gap-4 font-firaMono text-sm">
+    <footer className="mt-14 flex h-16 items-center justify-center gap-4 font-firaMono text-sm">
       <p>
         Created by{" "}
         <Link

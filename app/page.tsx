@@ -3,7 +3,7 @@ import BooksShowcase from "@/components/BooksShowcase"
 
 function HomePage() {
   return (
-    <div className="container flex min-h-full grow flex-col items-center justify-start gap-16">
+    <div className="container flex min-h-full grow flex-col items-center justify-center gap-16">
       <Searchbar />
       <div className="flex flex-col gap-3">
         <blockquote className="mt-6 text-xl italic">

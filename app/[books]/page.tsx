@@ -32,7 +32,7 @@ function Books({ searchParams: { search } }: BooksSearchProp) {
   const { count, query } = books[0]
 
   return (
-    <div className="mt-8 grid w-fit justify-items-center">
+    <div className="mt-8 grid justify-items-center">
       <p className="justify-self-start text-sm text-muted-foreground">
         {count} results for <span className="font-bold italic">{query}</span>
       </p>
