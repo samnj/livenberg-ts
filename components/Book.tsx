@@ -1,3 +1,5 @@
+"use client"
+
 import {
   Card,
   CardContent,
@@ -10,13 +12,27 @@ import {
 import no_cover from "@/public/no_cover.webp"
 import Image from "next/image"
 
+import { BOOK_ACTIONS } from "@/lib/constants"
+import formatBook from "@/lib/formatter"
+import { handleBook, getUserBooks } from "@/lib/helpers"
+import { TBook } from "@/lib/types"
 import { ArrowDownToLine, BookmarkPlus } from "lucide-react"
 import Link from "next/link"
-import formatBook from "@/lib/formatter"
-import { TBook } from "@/lib/types"
+import { useUser } from "@clerk/nextjs"
+import { SavedBook } from "@/lib/db/schema"
 
-function Book({ book }: { book: TBook }) {
-  const { title, authors, cover, languages, downloadLink } = formatBook(book)
+type TBookProps = {
+  book: TBook
+  userBooks: SavedBook[] | undefined
+}
+
+function Book({ book, userBooks }: TBookProps) {
+  const { id, title, authors, cover, languages, downloadLink } =
+    formatBook(book)
+
+  const { user } = useUser()
+
+  // TODO: create BookmarkButton
 
   return (
     <Card className="flex h-[22rem] w-44 flex-col justify-between">
@@ -35,14 +51,14 @@ function Book({ book }: { book: TBook }) {
       <CardFooter className="flex items-center justify-between">
         <div>{languages}</div>
         <div className="flex items-center gap-4">
-          <Link
+          <button
             title={`add ${title} to your library`}
-            href=""
-            target="_blank"
             className="hover:text-popover-foreground"
+            onClick={() => getUserBooks()}
+            // onClick={() => handleBook({ bookId: id, action: BOOK_ACTIONS.ADD })}
           >
             <BookmarkPlus className="h-5 w-5" />
-          </Link>
+          </button>
           <Link
             title={`download ${title}`}
             className="hover:text-popover-foreground"
