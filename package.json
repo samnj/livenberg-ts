@@ -36,6 +36,7 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.44.1",
     "react-hot-toast": "^2.4.1",
+    "sharp": "^0.32.1",
     "svix": "^1.4.12",
     "swr": "^2.1.5",
     "tailwind-merge": "^1.12.0",
