@@ -6,7 +6,8 @@ import { useRef } from "react"
 import useIntersection from "@/hooks/useIntersection"
 
 function LibraryPage() {
-  const { books, size, setSize, isValidating, hasNextPage } = useLibrary()
+  const { books, size, setSize, isValidating, isLoading, hasNextPage } =
+    useLibrary()
 
   const bottomOfPageRef = useRef<HTMLDivElement>(null)
 
@@ -19,6 +20,10 @@ function LibraryPage() {
     },
     options: { threshold: 0.5 },
   })
+
+  if (isLoading) {
+    return <></>
+  }
 
   if (!books?.length)
     return (
