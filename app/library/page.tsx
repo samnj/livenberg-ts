@@ -31,8 +31,8 @@ function LibraryPage() {
   const header = `${count} ${count === 1 ? "book" : "books"} in library`
 
   return (
-    <div className="container mt-8 grid w-fit justify-items-center">
-      <p>{header}</p>
+    <div className="container grid w-fit justify-items-center">
+      <p className="mb-2 justify-self-start text-lg">{header}</p>
       {books.map(({ results, next }) => (
         <BookList key={next} books={results} />
       ))}
