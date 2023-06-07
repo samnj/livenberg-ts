@@ -3,14 +3,14 @@
 import Book from "@/components/Book"
 import useShowCase from "@/hooks/useShowcase"
 import useUserBooks from "@/hooks/useUserBooks"
+import ShowcaseSkeleton from "@/components/ShowcaseSkeleton"
 
 function BooksShowcase() {
   const { books, isLoading, isError } = useShowCase()
   const { userBooks } = useUserBooks()
 
-  // TODO: create loading spinner/skeleton
   if (isLoading) {
-    return <div>loading...</div>
+    return <ShowcaseSkeleton />
   }
 
   if (isError) {
@@ -23,7 +23,7 @@ function BooksShowcase() {
   // TODO: randomize the books to show froom a pool of books
   if (books) {
     return (
-      <div className="mt-10 flex gap-6">
+      <div className="mt-10 flex max-w-full justify-center gap-6 overflow-x-auto">
         {books.results.map((book) => (
           <Book key={book.id} book={book} userBooks={userBooks} />
         ))}
