@@ -23,7 +23,7 @@ function BooksShowcase() {
   // TODO: randomize the books to show froom a pool of books
   if (books) {
     return (
-      <div className="mt-10 flex max-w-full justify-center gap-6 overflow-x-auto">
+      <div className="mt-10 flex max-w-full gap-6 overflow-x-auto">
         {books.results.map((book) => (
           <Book key={book.id} book={book} userBooks={userBooks} />
         ))}
