@@ -17,7 +17,7 @@ const toastTypeIcons = {
 
 function TailwindToaster() {
   return (
-    <Toaster position="top-center" toastOptions={{ duration: 20000 }}>
+    <Toaster position="top-center" >
       {(t) => {
         const typeStyle =
           toastTypeStyles[t.type as keyof typeof toastTypeStyles] ||
